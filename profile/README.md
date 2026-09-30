@@ -11,7 +11,7 @@
   <a href="https://stackorder.io/brand">Brand guide</a>
 </p>
 
-Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation and your AWS account; the server only ever sees metadata.
+Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation and your AWS account; the server receives metadata and redacted plan text, never cloud credentials or state.
 
 ## How it works
 
@@ -20,7 +20,7 @@ Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions
 3. **Dependency waves.** Applies run one wave at a time in the order set by `depends_on` and `terraform_remote_state` edges. Each job runs under the stack's GitHub environment, and a failed stack blocks its dependents.
 4. **Drift.** On a schedule, the server plans every stack at the head of the default branch and can open one GitHub issue per drifted stack.
 
-The server coordinates and never executes: it holds no cloud credentials, no state and no plan files with secrets. If it is down, pull request plans still run and only applies pause.
+The server coordinates and never executes: it holds no cloud credentials, no state and no plan files, and the plan text it receives is redacted and capped at 256 KB. If it is down, pull request plans still run and only applies pause.
 
 ## Repositories
 
