@@ -44,4 +44,4 @@ The server coordinates and never executes: it holds no cloud credentials, no sta
 
 ## Licence
 
-Every Stackorder repository is open source under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+The [`stackorder`](https://github.com/stackorder/stackorder), [`actions`](https://github.com/stackorder/actions) and [`example-infra`](https://github.com/stackorder/example-infra) repositories are open source under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
