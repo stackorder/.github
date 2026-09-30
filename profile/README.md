@@ -7,8 +7,7 @@
 <p align="center">
   <a href="https://stackorder.io">Website</a> ·
   <a href="https://docs.stackorder.io">Documentation</a> ·
-  <a href="https://docs.stackorder.io/guide/getting-started">Getting started</a> ·
-  <a href="https://stackorder.io/brand">Brand guide</a>
+  <a href="https://docs.stackorder.io/guide/getting-started">Getting started</a>
 </p>
 
 Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation and your AWS account; the server receives metadata and redacted plan text, never cloud credentials or state.

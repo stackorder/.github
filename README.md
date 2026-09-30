@@ -19,7 +19,7 @@ GitHub does not read the avatar from this repository. An organisation owner uplo
 
 ## Brand assets
 
-Every image here comes from the Stackorder brand kit, described in the [brand guide](https://stackorder.io/brand). None of it is redrawn:
+Every image here comes from the Stackorder brand kit, kept in the private `stackorder/website` repository under `brand/`. None of it is redrawn:
 
 - `avatar.png` is the kit's `dist/github-avatar.png`, unchanged.
 - The banners combine the kit's `svg/lockup-light.svg` or `svg/lockup-dark.svg`, at scale 6, with the outlined tagline from `svg/social-preview.svg`. It is the social preview's composition on a shorter, rounded card.
