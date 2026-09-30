@@ -41,6 +41,10 @@ The server coordinates and never executes: it holds no cloud credentials, no sta
 
 **v0.1.0** is the first release. The CLI builds are on the [`stackorder/stackorder` releases page](https://github.com/stackorder/stackorder/releases), the server image is `ghcr.io/stackorder/stackorder:0.1.0`, and repositories call the workflows as `stackorder/actions@v1`. The [changelog](https://docs.stackorder.io/changelog) lists what shipped and where the code departs from the design.
 
+## Security
+
+Report vulnerabilities privately, through each repository's **Security** tab, as the [security policy](https://github.com/stackorder/stackorder/blob/main/SECURITY.md) describes. The [security model](https://docs.stackorder.io/reference/security-model) sets out what each part of Stackorder can and cannot do if compromised.
+
 ## Licence
 
 The [`stackorder`](https://github.com/stackorder/stackorder), [`actions`](https://github.com/stackorder/actions) and [`example-infra`](https://github.com/stackorder/example-infra) repositories are open source under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
