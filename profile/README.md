@@ -26,9 +26,9 @@ The server coordinates and never executes: it holds no cloud credentials, no sta
 
 | Repository | What it holds |
 | --- | --- |
-| [`stackorder/stackorder`](https://github.com/stackorder/stackorder) | The control-plane server, the `stackorder` CLI, the web UI, the documentation site and the Terraform module that deploys the server |
-| [`stackorder/actions`](https://github.com/stackorder/actions) | The `setup`, `resolve`, `plan`, `apply` and `drift` actions and the reusable `plan.yml` and `run.yml` workflows your repositories call |
-| [`stackorder/example-infra`](https://github.com/stackorder/example-infra) | A small Terraform monorepo wired for Stackorder, and the target of its end-to-end tests |
+| [`stackorder`](https://github.com/stackorder/stackorder) | Server, `stackorder` CLI, web UI, docs and deployment module |
+| [`actions`](https://github.com/stackorder/actions) | The actions and the reusable `plan.yml` and `run.yml` workflows you call |
+| [`example-infra`](https://github.com/stackorder/example-infra) | Example monorepo wired for Stackorder, used by the end-to-end tests |
 
 ## Get started
 
