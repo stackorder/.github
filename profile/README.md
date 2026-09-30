@@ -15,7 +15,7 @@ Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions
 
 ## How it works
 
-1. **Pull request plans.** Every push to a pull request scans the repository, sends the dependency graph to the server and plans each affected stack on your own runners. You get one check per stack and one sticky comment.
+1. **Pull request plans.** Every push to a pull request scans the repository, sends the dependency graph to the server and plans each affected stack on your GitHub Actions runners. You get one check per stack and one sticky comment.
 2. **Apply gate.** A `stackorder apply` comment, or the merge, is checked for who asked, approvals, fresh plans on the head commit, policy checks and stack locks. Every failure is reported together in one comment.
 3. **Dependency waves.** Applies run one wave at a time in the order set by `depends_on` and `terraform_remote_state` edges. Each job runs under the stack's GitHub environment, and a failed stack blocks its dependents.
 4. **Drift.** On a schedule, the server plans every stack at the head of the default branch and can open one GitHub issue per drifted stack.
