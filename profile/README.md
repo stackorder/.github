@@ -39,7 +39,7 @@ The server coordinates and never executes: it holds no cloud credentials, no sta
 
 ## Status
 
-**v0.1.0** is the first release. The CLI builds are on the [`stackorder/stackorder` releases page](https://github.com/stackorder/stackorder/releases), the server image is `ghcr.io/stackorder/stackorder:0.1.0`, and repositories call the workflows as `stackorder/actions@v1`. The [changelog](https://docs.stackorder.io/changelog) lists what shipped and where the code departs from the design.
+**v0.2.0** is the current release. The CLI builds are on the [`stackorder/stackorder` releases page](https://github.com/stackorder/stackorder/releases), the server image is `ghcr.io/stackorder/stackorder:0.2.0`, and repositories call the workflows as `stackorder/actions@v1`. The [changelog](https://docs.stackorder.io/changelog) lists what shipped and where the code departs from the design.
 
 ## Security
 
