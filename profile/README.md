@@ -10,16 +10,16 @@
   <a href="https://docs.stackorder.io/guide/getting-started">Getting started</a>
 </p>
 
-Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation or personal account and your AWS account; the server receives metadata and redacted plan text, never cloud credentials or state.
+Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation or personal account and your AWS account; the server receives metadata and redacted plan text, never cloud credentials, and stores no state, reading none unless an operator turns on [shared outputs](https://docs.stackorder.io/configuration/outputs).
 
 ## How it works
 
 1. **Pull request plans.** Every push to a pull request scans the repository, sends the dependency graph to the server and plans each affected stack on your GitHub Actions runners. You get one check per stack and one sticky comment.
 2. **Apply gate.** A `stackorder apply` comment, or the merge, is checked for who asked, approvals, fresh plans on the head commit, policy checks and stack locks. Every failure is reported together in one comment.
-3. **Dependency waves.** Applies run one wave at a time in the order set by `depends_on` edges and `reads_state` edges, which come from `terraform_remote_state` blocks. Each job runs under the stack's GitHub environment, and a failed stack blocks its dependents.
+3. **Dependency waves.** Applies run one wave at a time in the order set by `depends_on` edges and `reads_state` edges, which come from `terraform_remote_state` and `stackorder_outputs` blocks. Each job runs under the stack's GitHub environment, and a failed stack blocks its dependents.
 4. **Drift.** On a schedule, the server plans every stack at the head of the default branch and can open one GitHub issue per drifted stack.
 
-The server coordinates and never executes: it holds no cloud credentials, no state and no plan files, and the plan text it receives is redacted and capped at 256 KB. If it is down, pull request plans still run and only applies pause.
+The server coordinates and never executes: it stores no state and no plan files, and holds no cloud credentials unless an operator turns on [shared outputs](https://docs.stackorder.io/configuration/outputs), which let its AWS role read the state objects the operator lists, never write them. The plan text it receives is redacted and capped at 256 KB. If it is down, pull request plans still run and only applies pause, except that a stack reading shared outputs cannot plan.
 
 ## Repositories
 
@@ -27,19 +27,22 @@ The server coordinates and never executes: it holds no cloud credentials, no sta
 | --- | --- |
 | [`stackorder`](https://github.com/stackorder/stackorder) | Server, `stackorder` CLI, web UI, docs and deployment module |
 | [`actions`](https://github.com/stackorder/actions) | The actions and the reusable `plan.yml` and `run.yml` workflows you call |
+| [`terraform-provider-stackorder`](https://github.com/stackorder/terraform-provider-stackorder) | The `stackorder/stackorder` provider on the [Terraform Registry](https://registry.terraform.io/providers/stackorder/stackorder/latest) and the [OpenTofu Registry](https://search.opentofu.org/provider/stackorder/stackorder/latest), which reads [shared outputs](https://docs.stackorder.io/configuration/outputs) |
 | [`example-infra`](https://github.com/stackorder/example-infra) | Example monorepo wired for Stackorder, used by the end-to-end tests |
 
 ## Get started
 
 - [Introduction](https://docs.stackorder.io/guide/introduction): what the server does, and what it deliberately is not.
+- [Comparison](https://docs.stackorder.io/guide/comparison): how Stackorder compares with Atlantis, HCP Terraform, Terrakube and Stategraph.
 - [Local demo](https://docs.stackorder.io/guide/local-demo): plan, apply and check drift on one machine, with no GitHub App and no AWS account.
 - [Getting started](https://docs.stackorder.io/guide/getting-started): take one repository from nothing to its first `stackorder apply`.
 - [How it works](https://docs.stackorder.io/guide/how-it-works): the execution model, the apply gate, waves, locks and drift.
+- [Stack instances](https://docs.stackorder.io/configuration/instances) and [Shared outputs](https://docs.stackorder.io/configuration/outputs): deploying one directory per environment, and reading another stack's outputs without reading its state.
 - [`stackorder.yaml`](https://docs.stackorder.io/configuration/stackorder-yaml) and [Security model](https://docs.stackorder.io/reference/security-model): the reference pages to read before production.
 
 ## Status
 
-**v0.2.0** is the current release. The CLI builds are on the [`stackorder/stackorder` releases page](https://github.com/stackorder/stackorder/releases), the server image is `ghcr.io/stackorder/stackorder:0.2.0`, and repositories call the workflows as `stackorder/actions@v1`. The [changelog](https://docs.stackorder.io/changelog) lists what shipped and where the code departs from the design.
+**v0.4.0** is the current release. The CLI builds are on the [`stackorder/stackorder` releases page](https://github.com/stackorder/stackorder/releases), the server image is `ghcr.io/stackorder/stackorder:0.4.0`, repositories call the workflows as `stackorder/actions@v1`, and the `stackorder/stackorder` provider is published on the [Terraform Registry](https://registry.terraform.io/providers/stackorder/stackorder/latest) and the [OpenTofu Registry](https://search.opentofu.org/provider/stackorder/stackorder/latest). The [changelog](https://docs.stackorder.io/changelog) lists what shipped and where the code departs from the design.
 
 ## Security
 
@@ -47,4 +50,4 @@ Report vulnerabilities privately, through each repository's **Security** tab, as
 
 ## Licence
 
-The [`stackorder`](https://github.com/stackorder/stackorder), [`actions`](https://github.com/stackorder/actions) and [`example-infra`](https://github.com/stackorder/example-infra) repositories are open source under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+The [`stackorder`](https://github.com/stackorder/stackorder), [`actions`](https://github.com/stackorder/actions), [`terraform-provider-stackorder`](https://github.com/stackorder/terraform-provider-stackorder) and [`example-infra`](https://github.com/stackorder/example-infra) repositories are open source under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
