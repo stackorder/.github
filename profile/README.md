@@ -10,7 +10,7 @@
   <a href="https://docs.stackorder.io/guide/getting-started">Getting started</a>
 </p>
 
-Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation or personal account and your AWS account; the server receives metadata and redacted plan text, never cloud credentials, and stores no state, reading none unless an operator turns on [shared outputs](https://docs.stackorder.io/configuration/outputs).
+Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions. A GitHub App and a small control-plane server work out which stacks a change affects and the order to apply them in, and GitHub Actions does all of the running. Credentials, state and modules stay in your GitHub organisation or personal account and your AWS account, or an S3-compatible service such as Cloudflare R2 for state; the server receives metadata and redacted plan text, never cloud credentials, and stores no state, reading none unless an operator turns on [shared outputs](https://docs.stackorder.io/configuration/outputs).
 
 ## How it works
 
@@ -19,7 +19,7 @@ Stackorder is lightweight Terraform and OpenTofu orchestration on GitHub Actions
 3. **Dependency waves.** Applies run one wave at a time in the order set by `depends_on` edges and `reads_state` edges, which come from `terraform_remote_state` and `stackorder_outputs` blocks. Each job runs under the stack's GitHub environment, and a failed stack blocks its dependents.
 4. **Drift.** On a schedule, the server plans every stack at the head of the default branch and can open one GitHub issue per drifted stack.
 
-The server coordinates and never executes: it stores no state and no plan files, and holds no cloud credentials unless an operator turns on [shared outputs](https://docs.stackorder.io/configuration/outputs), which let its AWS role read the state objects the operator lists, never write them. The plan text it receives is redacted and capped at 256 KB. If it is down, pull request plans still run and only applies pause, except that a stack reading shared outputs cannot plan.
+The server coordinates and never executes: it stores no state and no plan files, and holds no cloud credentials unless an operator turns on [shared outputs](https://docs.stackorder.io/configuration/outputs), which let its AWS role, or a key the operator gives it for an S3-compatible service, read the state objects the operator lists, never write them. The plan text it receives is redacted and capped at 256 KB. If it is down, pull request plans still run and only applies pause, except that a stack reading shared outputs cannot plan.
 
 ## Repositories
 
